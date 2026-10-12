@@ -7,269 +7,269 @@
 <style>
   :root{
     --bg:#0f1420; --panel:#1a2233; --panel2:#222c42; --ink:#e8edf5; --dim:#9aa7bd;
-    --accent:#5b9dff; --focus:#ffb454; --focus-bg:#3a2f1a; --line:#33405c;
+    --accent:#5b9dff; --focus:#ffb454; --focus-bg:#3a2f1a; --line:#3a4a6b;
     --good:#5fd68b; --warn:#ff7d6b;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}
-  header{padding:48px 24px 32px;max-width:1100px;margin:0 auto}
-  header h1{font-size:2.1em;margin:0 0 8px}
-  header p{color:var(--dim);max-width:820px}
-  .badge{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:2px 12px;margin:3px 4px 0 0;font-size:.82em;color:var(--dim)}
-  .badge.hot{color:var(--focus);border-color:var(--focus)}
-  nav.toc{max-width:1100px;margin:0 auto;padding:0 24px 16px;display:flex;flex-wrap:wrap;gap:8px}
-  nav.toc a{color:var(--accent);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-decoration:none;font-size:.9em}
-  nav.toc a:hover{border-color:var(--accent)}
-  section{max-width:1100px;margin:0 auto 40px;padding:0 24px}
-  h2{font-size:1.5em;border-left:4px solid var(--accent);padding-left:12px;margin-top:48px}
-  h3{font-size:1.15em;color:var(--accent);margin-top:32px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
-  .card.focus{border-color:var(--focus);background:var(--focus-bg)}
-  .card h4{margin:0 0 8px;font-size:1.05em}
-  .tag{display:inline-block;font-size:.75em;border-radius:4px;padding:1px 8px;margin-left:8px;vertical-align:middle}
-  .tag.m1{background:#1d3a2a;color:var(--good)} .tag.f0{background:#3a2420;color:var(--warn)}
-  .tag.f1{background:#1d3a2a;color:var(--good)} .tag.c10{background:#2a2f45;color:#c9d4ff}
-  .tag.c11{background:#1d3a2a;color:var(--good)}
-  /* 树 */
-  ul.tree, ul.tree ul{list-style:none;padding-left:22px;border-left:1px solid var(--line);margin:6px 0 6px 4px}
-  ul.tree{padding-left:4px;border-left:none}
-  ul.tree li{margin:3px 0}
-  ul.tree .node{cursor:default}
-  .caret{cursor:pointer;user-select:none;color:var(--accent);font-weight:600}
-  .caret::before{content:"▸";display:inline-block;margin-right:6px;transition:.15s}
-  .caret.open::before{content:"▾"}
-  .nested{display:none} .nested.show{display:block}
-  .leaf{color:var(--dim)}
-  .focus-node{color:var(--focus);font-weight:700}
-  .focus-node::after{content:" ★"}
-  .you{font-size:.75em;color:var(--bg);background:var(--focus);border-radius:4px;padding:0 6px;margin-left:8px;vertical-align:middle}
-  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.92em}
-  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75}
+  header{padding:48px 24px 28px;max-width:1200px;margin:0 auto}
+  header h1{font-size:2em;margin:0 0 8px}
+  header p{color:var(--dim);max-width:860px}
+  .layout{max-width:1200px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+  @media (max-width:900px){.layout{grid-template-columns:1fr}}
+  h2{font-size:1.4em;border-left:4px solid var(--accent);padding-left:12px}
+  /* ===== 真正的线条树 ===== */
+  .tree, .tree ul{list-style:none;margin:0;padding:0}
+  .tree ul{padding-left:26px;position:relative}
+  .tree li{position:relative;padding:2px 0 2px 0}
+  .tree ul li::before{content:"";position:absolute;left:-26px;top:0;border-left:2px solid var(--line);height:100%}
+  .tree ul li::after{content:"";position:absolute;left:-26px;top:16px;width:22px;border-top:2px solid var(--line)}
+  .tree ul li:last-child::before{height:16px}
+  .node{display:inline-block;padding:4px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);cursor:pointer;margin:3px 0;transition:.15s;user-select:none}
+  .node:hover{border-color:var(--accent);background:var(--panel2)}
+  .node.active{border-color:var(--accent);background:var(--panel2);box-shadow:0 0 0 1px var(--accent)}
+  .node.branch::before{content:"▸ ";color:var(--accent)}
+  .node.branch.open::before{content:"▾ "}
+  .node.leaf-node{cursor:pointer;color:var(--dim)}
+  .node.focus-node{color:var(--focus);font-weight:700;border-color:var(--focus);background:var(--focus-bg)}
+  .node.focus-node::after{content:" ★"}
+  .kids{display:none}.kids.show{display:block}
+  .note{color:var(--dim);font-size:.85em;margin-left:8px}
+  /* 详情面板 */
+  #detail{position:sticky;top:20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  #detail h3{margin-top:0;color:var(--accent);font-size:1.05em}
+  #detail .body{color:var(--ink);font-size:.92em}
+  #detail .hint{color:var(--dim);font-size:.85em}
+  section{max-width:1200px;margin:0 auto 30px;padding:0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
   th{background:var(--panel2)}
-  code{background:var(--panel2);border-radius:4px;padding:1px 6px;font-size:.9em}
-  .note{color:var(--dim);font-size:.88em}
-  .kpi{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
-  .kpi div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:.88em}
-  .kpi b{color:var(--accent)}
-  footer{color:var(--dim);text-align:center;padding:40px 0;font-size:.85em}
-  a{color:var(--accent)}
+  footer{color:var(--dim);text-align:center;padding:36px 0;font-size:.85em}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>具身导航领域树 <span style="font-size:.45em;color:var(--dim)">Embodied Navigation Field Map · v0.1</span></h1>
-  <p>以 POMDP 三组件（<b>信念维护 → 预测 → 决策</b>）为统一语言梳理具身导航的分支版图；★ 标记我们当前的关注点与学习位置。配套：导航世界模型综述（决策相关记忆 M×F 框架）与两周真机复现计划（SG-Nav → NoMaD）。</p>
-  <div>
-    <span class="badge hot">★ 当前关注</span>
-    <span class="badge">SG-Nav 系（清华）</span>
-    <span class="badge">NoMaD 系（Berkeley）</span>
-    <span class="badge">SuperNav（浙大）</span>
-    <span class="badge">M×F / C00–C11</span>
-    <span class="badge">世界模型导航</span>
-  </div>
+  <h1>具身导航领域树 <span style="font-size:.42em;color:var(--dim)">Embodied Navigation Field Map · v0.2</span></h1>
+  <p>以 POMDP 三组件（<b>信念维护 → 预测 → 决策</b>）为统一语言梳理具身导航版图。点击节点展开分支并在右侧查看详情；★ 为当前精读中的论文。</p>
 </header>
 
-<nav class="toc">
-  <a href="#define">0. 问题定义</a>
-  <a href="#tree">1. 领域树</a>
-  <a href="#focus">2. 关注点深读</a>
-  <a href="#survey">3. 与综述的映射</a>
-  <a href="#plan">4. 两周复现计划</a>
-</nav>
-
-<!-- ============ 0. 问题定义 ============ -->
-<section id="define">
-<h2>0. 先定义问题：具身导航是一个 POMDP</h2>
+<section>
+<h2>0. 问题定义：具身导航是一个 POMDP</h2>
 <div class="card">
-  <p>具身视觉导航 = 智能体在<b>看不全状态</b> $s_t$ 的前提下，以第一视角视觉（RGB/RGB-D）为主要观测 $o_t$，选择动作序列 $a_t$ 到达目标 $g$。它是部分可观测马尔可夫决策过程（POMDP）："看不全、要记住、想清楚再走"的序贯决策问题。</p>
   <table>
-    <tr><th>POMDP 组件</th><th>干什么</th><th>本领域的典型实现</th></tr>
-    <tr><td><b>信念维护</b>：历史 $H_t$ → $\hat{s}_t$</td><td>把观测历史压缩成对世界的当前估计（记忆）</td><td>度量地图 / 拓扑图 / 场景图 / 循环隐状态 / 文本档案</td></tr>
-    <tr><td><b>预测</b>：$(\hat{s}_t, a)$ → 后果</td><td>回答"这么走会怎样"</td><td>可学习世界模型 / 扩散动作先验 / LLM 常识（伪预测）</td></tr>
-    <tr><td><b>决策</b>：$\hat{s}_t$ → $a$</td><td>在信念上选动作</td><td>RL 策略 / frontier 打分 / MPC 想象 / 大模型推理</td></tr>
+    <tr><th>POMDP 组件</th><th>干什么</th><th>典型实现</th></tr>
+    <tr><td><b>信念维护</b>：历史 → 当前世界估计</td><td>压缩观测历史（记忆）</td><td>度量地图 / 拓扑图 / 场景图 / 循环隐状态 / 文本档案</td></tr>
+    <tr><td><b>预测</b>：状态+动作 → 后果</td><td>"这么走会怎样"</td><td>世界模型 / 扩散动作先验 / LLM 常识</td></tr>
+    <tr><td><b>决策</b>：估计 → 动作</td><td>选动作</td><td>RL 策略 / frontier 打分 / MPC / 大模型推理</td></tr>
   </table>
-  <p class="note">目标类型决定"什么信息相关"：PointGoal（坐标）→ ImageGoal（图像）→ ObjectGoal（类别）→ VLN（语言指令）→ 需求驱动（"找个能休息的地方"）。评测四前提必须声明：行动接口、观测权限、计算预算、环境动态性。指标：SR / SPL / SoftSPL / 碰撞 / 时延（常被漏报）。</p>
+  <p class="note">目标类型：PointGoal（坐标）→ ImageGoal（图像）→ ObjectGoal（类别）→ VLN（语言指令）→ 需求驱动。指标：SR / SPL / 碰撞 / 时延。</p>
 </div>
 </section>
 
-<!-- ============ 1. 领域树 ============ -->
-<section id="tree">
-<h2>1. 领域树（点击展开）</h2>
+<section>
+<h2>1. 领域树（点击节点展开 / 查看详情）</h2>
+<div class="layout">
+<div>
+<ul class="tree" id="root">
+<li><span class="node branch open" data-d="root">具身导航 Embodied Navigation</span>
+<ul class="kids show">
 
-<ul class="tree">
-<li><span class="caret open">具身导航 Embodied Navigation</span>
-<ul class="nested show">
+<li><span class="node branch" data-d="task">A. 按任务目标分</span>
+<ul class="kids">
+  <li><span class="node leaf-node" data-d="pointgoal">PointGoal 点目标</span><span class="note">坐标目标；DD-PPO 近饱和</span></li>
+  <li><span class="node leaf-node" data-d="objectnav">ObjectNav 物体目标</span><span class="note">MP3D/HM3D/RoboTHOR；最主流 benchmark</span></li>
+  <li><span class="node leaf-node" data-d="imagenav">ImageNav 图像目标</span><span class="note">目标=一张照片；实例级外观记忆</span></li>
+  <li><span class="node leaf-node" data-d="vln">VLN 语言指令导航</span><span class="note">R2R/RxR/VLN-CE；"在客厅左转走到沙发"</span></li>
+  <li><span class="node leaf-node" data-d="demand">需求驱动 / 多目标 / 终身</span><span class="note">Demand-Bench、GOAT-Bench、IVLN</span></li>
+  <li><span class="node leaf-node" data-d="othertask">其他：AudioNav · EQA · 社交导航 · 纯探索</span></li>
+</ul></li>
 
-  <li><span class="caret">A. 按任务目标分</span>
-  <ul class="nested">
-    <li class="node">PointGoal 点目标 <span class="leaf">— DD-PPO（2.5B 帧近乎饱和）；几何与连通性记忆的最低配置</span></li>
-    <li class="node">ObjectNav 物体目标 <span class="leaf">— MP3D / HM3D / RoboTHOR / HM3D-OVON；评测口径批判见 ObjectNav Revisited</span></li>
-    <li class="node">ImageNav 图像目标 <span class="leaf">— 实例级外观+空间关系记忆；ViNT/NoMaD 的主战场</span></li>
-    <li class="node">VLN 语言指令 <span class="leaf">— R2R / RxR / VLN-CE；GC-VLN ★、NavMorph、SC²-WM 所在</span></li>
-    <li class="node">需求驱动 / 多目标 / 终身 <span class="leaf">— Demand-Bench（"准备 workspace"）、GOAT-Bench（连续多目标）、IVLN（tour）；SuperNav ★ 的差异化战场</span></li>
-    <li class="node">其他：AudioNav · EQA · 社交导航 · 纯探索（coverage）</li>
+<li><span class="node branch" data-d="paradigm">B. 按系统范式分（主干）</span>
+<ul class="kids">
+  <li><span class="node leaf-node" data-d="classic">经典管线：SLAM + 几何规划</span><span class="note">A*/FMM；不作学习，作接口与对照</span></li>
+  <li><span class="node branch" data-d="modular">B1. 模块化学习</span>
+  <ul class="kids">
+    <li><span class="node leaf-node" data-d="ans">Active Neural SLAM（CVPR'20）</span><span class="note">显式地图+分层策略的标杆</span></li>
+    <li><span class="node leaf-node" data-d="semexp">SemEXP / PONI / GOSE</span><span class="note">语义地图 + 学习探索策略</span></li>
   </ul></li>
-
-  <li><span class="caret">B. 按系统范式分（主干）</span>
-  <ul class="nested">
-    <li class="node">经典管线 <span class="leaf">— SLAM + 几何规划（A*/FMM）；不作学习，作接口与对照</span></li>
-    <li><span class="caret">模块化学习</span>
-    <ul class="nested">
-      <li class="leaf">Active Neural SLAM（显式地图+分层策略）、SemEXP、PONI、GOSE —— 语义地图 + 学习探索策略</li>
+  <li><span class="node branch" data-d="e2erl">B2. 端到端 RL</span>
+  <ul class="kids">
+    <li><span class="node leaf-node" data-d="ddppo">DD-PPO（PointGoal 天花板）</span></li>
+    <li><span class="node leaf-node" data-d="zson">ZSON / THDA</span><span class="note">CLIP 对齐做零样本；采样效率低</span></li>
+  </ul></li>
+  <li><span class="node branch" data-d="llmzs">B3. LLM/VLM 零样本（training-free）</span>
+  <ul class="kids">
+    <li><span class="node branch" data-d="valuemap">B3.1 值图 / frontier 打分</span>
+    <ul class="kids">
+      <li><span class="node leaf-node" data-d="cow">CoW（CLIP 梯度查图）</span></li>
+      <li><span class="node leaf-node" data-d="vlfm">VLFM（ICRA'24，值图 frontier）</span></li>
+      <li><span class="node leaf-node" data-d="esc">ESC / L3MVN / OpenFMNav / VoroNav / ApexNav</span><span class="note">LLM 常识给 frontier 打分</span></li>
     </ul></li>
-    <li><span class="caret">端到端 RL</span>
-    <ul class="nested">
-      <li class="leaf">DD-PPO、ZSON（CLIP 对齐零样本）、THDA —— 采样效率低、类别受限</li>
+    <li><span class="node branch open" data-d="sgline">B3.2 场景图派 ★</span>
+    <ul class="kids show">
+      <li><span class="node leaf-node focus-node" data-d="sgnav">SG-Nav（NeurIPS'24）</span><span class="note">在线 3D 场景图 + H-CoT + re-perception</span></li>
+      <li><span class="node leaf-node focus-node" data-d="unigoal">UniGoal（CVPR'25）</span><span class="note">目标也变成图：图匹配统一三类目标</span></li>
+      <li><span class="node leaf-node focus-node" data-d="gcvln">GC-VLN（CoRL'25）</span><span class="note">指令分解为图约束优化</span></li>
+      <li><span class="node leaf-node" data-d="cg">底座：ConceptGraphs / EmbodiedSAM</span><span class="note">开放词表 3D 实例分割建图</span></li>
     </ul></li>
-    <li><span class="caret open">LLM/VLM 零样本（training-free）— 清华线所在</span>
-    <ul class="nested show">
-      <li class="leaf">值图 / frontier 打分：CoW、VLFM、ESC、L3MVN、OpenFMNav、VoroNav、ApexNav</li>
-      <li class="node focus-node">场景图派：SG-Nav（NeurIPS'24）→ UniGoal（CVPR'25）→ GC-VLN（CoRL'25）<span class="you">关注</span>
-        <div class="leaf">在线 3D 层次场景图（房间-组-物体）+ LLM 分层 CoT 推理 + re-perception 校正；主线=图表示不变、不断拓宽目标类型</div></li>
-      <li class="leaf">分层系统：InstructNav（值图）、SysNav（房间级 VLM+经典算法）、OmniNav（快慢系统）</li>
-      <li class="node focus-node">Agentic harness 派：SuperNav（浙大 2026.10）· HarnessVLN · AgenticNav<span class="you">关注</span>
-        <div class="leaf">MLLM 当自主 agent + Tools/Skills/context 工程；visual-point 接口；无持久空间记忆</div></li>
+    <li><span class="node branch" data-d="hier">B3.3 分层系统</span>
+    <ul class="kids">
+      <li><span class="node leaf-node" data-d="instructnav">InstructNav（值图+地标）</span></li>
+      <li><span class="node leaf-node" data-d="sysnav">SysNav / OmniNav</span><span class="note">房间级 VLM + 经典执行</span></li>
     </ul></li>
-    <li><span class="caret open">学习派通用策略（真实机器人行为克隆）— Berkeley 线所在</span>
-    <ul class="nested show">
-      <li class="node focus-node">ViNG → ViKiNG → GNM → ViNT（CoRL'23）→ NoMaD（ICRA'24）<span class="you">关注</span>
-        <div class="leaf">Transformer 策略 + 扩散动作解码 + goal masking 统一探索/导航；拓扑图 episodic memory 做长程</div></li>
-      <li class="leaf">后继：UniNav（世界-动作扩散统一）、FlowNav（flow matching 提速）等</li>
-    </ul></li>
-    <li><span class="caret">端到端 VLA / 视频大模型</span>
-    <ul class="nested">
-      <li class="leaf">NaVid、UniNaVid、NaVILA、StreamVLN、Mobility VLA —— 视频/指令直接出动作，通用但黑箱、数据饥渴</li>
-    </ul></li>
-    <li><span class="caret">世界模型导航（预测显式化）</span>
-    <ul class="nested">
-      <li class="leaf">Dreamer 系（想象中学策略）、NWM（视频世界模型做规划/候选排序）、NavWM、NavForesee（预测特征而非像素）、WMNav、SC²-WM（自校正）、NavMorph（上下文记忆）——综述的核心层</li>
+    <li><span class="node branch open" data-d="agentic">B3.4 Agentic harness 派（2026 新浪潮）★</span>
+    <ul class="kids show">
+      <li><span class="node leaf-node focus-node" data-d="supernav">SuperNav（浙大，2026.10）</span><span class="note">MLLM 当 agent + Tools/Skills + visual-point 接口</span></li>
+      <li><span class="node leaf-node" data-d="harnessvln">HarnessVLN / AgenticNav / Show-Harness</span></li>
     </ul></li>
   </ul></li>
-
-  <li><span class="caret">C. 按记忆载体分（综述核心维度）</span>
-  <ul class="nested">
-    <li class="leaf">无显式记忆（纯 reactive 策略）</li>
-    <li class="leaf">循环隐状态：RNN/SSM（R2I；属基座状态，不算档案 M）</li>
-    <li class="leaf">度量地图：occupancy / 语义俯视地图（ANS、SemEXP）</li>
-    <li class="node focus-node">拓扑图：节点=观测图像、边=时距（ViNT/NoMaD）<span class="you">C10</span></li>
-    <li class="node focus-node">3D 语义场景图：房间-组-物体+关系边（SG-Nav/UniGoal/GC-VLN；ConceptGraphs、Khronos）<span class="you">C11</span></li>
-    <li class="leaf">latent/context 记忆：NavMorph CEM、SC²-WM VCM</li>
-    <li class="node focus-node">文本/工作区档案（context 工程型）：SuperNav<span class="you">C10，无空间对齐</span></li>
+  <li><span class="node branch open" data-d="learned">B4. 学习派通用策略（真实机器人）★</span>
+  <ul class="kids show">
+    <li><span class="node leaf-node" data-d="ving">ViNG / ViKiNG（'21/'22）</span><span class="note">拓扑图+时距估计的奠基</span></li>
+    <li><span class="node leaf-node" data-d="gnm">GNM（ICRA'23）</span><span class="note">跨本体通用导航模型</span></li>
+    <li><span class="node leaf-node focus-node" data-d="vint">ViNT（CoRL'23）</span><span class="note">Transformer 策略，目标条件导航</span></li>
+    <li><span class="node leaf-node focus-node" data-d="nomad">NoMaD（ICRA'24）</span><span class="note">goal masking + 扩散动作；单模型统一探索/导航</span></li>
+    <li><span class="node leaf-node" data-d="uninav">后继：UniNav / FlowNav</span><span class="note">世界-动作扩散统一；flow matching 提速</span></li>
   </ul></li>
-
-  <li><span class="caret">D. 按决策接口分</span>
-  <ul class="nested">
-    <li class="leaf">离散动作直接预测（RL、NaVid 系）</li>
-    <li class="leaf">frontier 打分（VLFM、SG-Nav ★）</li>
-    <li class="leaf">子目标提议（ViNT subgoal diffusion、拓扑图搜索 NoMaD ★）</li>
-    <li class="leaf">视觉指点 PointNav（SuperNav ★）</li>
-    <li class="leaf">WM 想象评估 / MPC（NWM、Dreamer）</li>
+  <li><span class="node branch" data-d="vla">B5. 端到端 VLA / 视频大模型</span>
+  <ul class="kids">
+    <li><span class="node leaf-node" data-d="navid">NaVid / UniNaVid</span><span class="note">视频 VLM 直接出动作</span></li>
+    <li><span class="node leaf-node" data-d="navila">NaVILA / StreamVLN / Mobility VLA</span></li>
   </ul></li>
-
-  <li><span class="caret">E. 评测与平台</span>
-  <ul class="nested">
-    <li class="leaf">仿真：Habitat（MP3D/HM3D/HM3D-OVON）、AI2-THOR/RoboTHOR、Gibson、Habitat-GS/InteriorGS、Isaac</li>
-    <li class="leaf">指标：SR / SPL / SoftSPL / 碰撞 / 无效重访；<b style="color:var(--warn)">时延与调用成本普遍漏报</b>（我们综述的靶点）</li>
-    <li class="leaf">真机：LoCoBot（NoMaD）、Unitree Go2（SuperNav、我们的复现平台候选）</li>
+  <li><span class="node branch" data-d="wm">B6. 世界模型导航（预测显式化）</span>
+  <ul class="kids">
+    <li><span class="node leaf-node" data-d="dreamer">Dreamer 系（想象中学策略）</span></li>
+    <li><span class="node leaf-node" data-d="nwm">NWM（CVPR'25，视频世界模型做规划）</span></li>
+    <li><span class="node leaf-node" data-d="navwm">NavWM / NavForesee / WMNav</span></li>
+    <li><span class="node leaf-node" data-d="sc2wm">SC²-WM / NavMorph</span><span class="note">带记忆与自校正的导航世界模型</span></li>
   </ul></li>
+</ul></li>
+
+<li><span class="node branch" data-d="memory">C. 按记忆载体分</span>
+<ul class="kids">
+  <li><span class="node leaf-node" data-d="m-none">无显式记忆（纯 reactive）</span></li>
+  <li><span class="node leaf-node" data-d="m-rnn">循环隐状态（RNN/SSM）</span></li>
+  <li><span class="node leaf-node" data-d="m-map">度量地图（occupancy/语义俯视）</span></li>
+  <li><span class="node leaf-node focus-node" data-d="m-topo">拓扑图 ★（ViNT/NoMaD）</span><span class="note">节点=观测图像，边=时距</span></li>
+  <li><span class="node leaf-node focus-node" data-d="m-sg">3D 语义场景图 ★（SG-Nav 系）</span><span class="note">房间-组-物体+关系边</span></li>
+  <li><span class="node leaf-node" data-d="m-latent">latent/context 记忆（NavMorph CEM 等）</span></li>
+  <li><span class="node leaf-node focus-node" data-d="m-text">文本/工作区档案 ★（SuperNav）</span><span class="note">context 工程，无空间对齐</span></li>
+</ul></li>
+
+<li><span class="node branch" data-d="interface">D. 按决策接口分</span>
+<ul class="kids">
+  <li><span class="node leaf-node" data-d="i-direct">离散动作直接预测</span></li>
+  <li><span class="node leaf-node focus-node" data-d="i-frontier">frontier 打分 ★（SG-Nav/VLFM）</span></li>
+  <li><span class="node leaf-node focus-node" data-d="i-subgoal">子目标提议 ★（ViNT/NoMaD 拓扑图搜索）</span></li>
+  <li><span class="node leaf-node focus-node" data-d="i-point">视觉指点 ★（SuperNav PointNav）</span></li>
+  <li><span class="node leaf-node" data-d="i-mpc">WM 想象评估 / MPC（NWM/Dreamer）</span></li>
+</ul></li>
+
+<li><span class="node branch" data-d="eval">E. 评测与平台</span>
+<ul class="kids">
+  <li><span class="node leaf-node" data-d="sim">仿真：Habitat（MP3D/HM3D/OVON）· AI2-THOR/RoboTHOR · Gibson · Habitat-GS</span></li>
+  <li><span class="node leaf-node" data-d="metric">指标：SR / SPL / SoftSPL / 碰撞 / 无效重访 / 时延</span></li>
+  <li><span class="node leaf-node" data-d="robot">真机：LoCoBot · Unitree Go2 · Jackal</span></li>
+</ul></li>
 
 </ul></li>
 </ul>
-</section>
-
-<!-- ============ 2. 关注点深读 ============ -->
-<section id="focus">
-<h2>2. 当前关注点：深读笔记</h2>
-
-<h3>2.1 SG-Nav 系（清华 · Hang Yin / Jiwen Lu）</h3>
-<div class="card focus">
-  <h4>SG-Nav（NeurIPS 2024）<span class="tag c11">C11</span><span class="tag m1">M1 场景图</span><span class="tag f1">F1 re-perception</span></h4>
-  <p><b>做什么</b>：在线构建"房间-组-物体"三层 3D 场景图代替纯文本 prompt；H-CoT 四步让 LLM 沿子图推理目标位置；frontier 得分 = Σ P_sub/D 距离加权插值；re-perception 累积可信度纠正误检（N_max=10, S_thres=0.8）。</p>
-  <p><b>关键数字</b>：MP3D SR 40.2（首个超有监督的零样本方法）；消融：去场景图 −10.8 SR、去 re-perception −3.6 SR；LLaMA-7B ≈ GPT-4（方法不依赖强模型）。</p>
-  <p><b>学习要点</b>：① 增量建边的批量 prompt 把复杂度从 O(m(m+n)) 降到 O(m)；② 短边用 VLM 验证 LLM 假设、长边用几何判据——"内部预测不当独立测量"的范本；③ 局限：依赖在线 3D 实例分割、只做 ObjectNav、不报时延。</p>
-</div>
-<div class="card">
-  <h4>UniGoal（CVPR 2025）· GC-VLN（CoRL 2025）</h4>
-  <p>UniGoal：统一物体/图像/文本三类目标为<b>图匹配</b>问题（目标也变成图），多阶段探索（全匹配→部分匹配）。GC-VLN：VLN 指令分解为<b>图约束优化</b>，training-free。主线读法：场景图表示不变，目标类型不断拓宽——下一环自然是接入可学习预测器（世界模型）。</p>
 </div>
 
-<h3>2.2 NoMaD 系（Berkeley · Dhruv Shah / Sergey Levine）</h3>
-<div class="card focus">
-  <h4>ViNT → NoMaD（CoRL 2023 → ICRA 2024）<span class="tag c10">C10</span><span class="tag m1">M1 拓扑图</span><span class="tag f0">F0 无校正</span></h4>
-  <p><b>做什么</b>：ViNT = EfficientNet-B0 编码过去 5 帧 + goal 融合 token → 4 层 Transformer → 双头（未来 8 waypoint + 时距），100+ 小时真实数据行为克隆。NoMaD = ViNT + 两个改动：① <b>goal masking</b>（attention 屏蔽 goal token，p=0.5 训练，单模型统一探索/导航）；② <b>扩散动作解码</b>（1D U-Net，10 步去噪，建模多峰无碰撞动作分布）。</p>
-  <p><b>关键数字</b>：探索 98% 成功/0.2 碰撞，超 ViNT subgoal-diffusion 25%+，参数 19M（小 15×），跑 Jetson Orin。</p>
-  <p><b>学习要点</b>：① 拓扑图=episodic memory，边由时距 head 估计，图搜索给长程子目标；② 扩散生成的是动作不是图像；③ 局限：目标只能是图像、无语义、拓扑图只增不纠（无失效机制）、笨 frontier 无 semantic prior。</p>
+<!-- 详情面板 -->
+<div id="detail">
+  <h3>详情</h3>
+  <div class="body hint">点击左侧任意节点查看说明；★ 为当前精读论文。</div>
 </div>
-
-<h3>2.3 SuperNav（浙大 3DV 组，2026.10）</h3>
-<div class="card focus">
-  <h4>Agentic harness + MLLM<span class="tag c10">C10</span><span class="tag m1">M1 文本档案</span><span class="tag f0">F0 提示级复查</span></h4>
-  <p><b>做什么</b>：GPT-5.6 级 MLLM 当自主 agent；Tools（四向观测/PointNav 指点/进度/终止）+ Skills（Markdown 说明书）+ context 剪枝；双后端可换（Geo：深度+navmesh+A*；Learned：<b>NoMaD 启发的 flow 策略</b>——两条主线系统级合流的证据）。</p>
-  <p><b>关键数字</b>：实例导航 78%（UniNaVid 34%）、需求驱动 59.5%、HM3D-OVON 73.3%@1m + Go2 真机。</p>
-  <p><b>学习要点</b>：任务通用性靠 agent 解释力而非工作流改造；软肋=无持久空间记忆（重访靠视觉识别）、成本/时延自认不可控、完成判断是 MLLM 自报。</p>
 </div>
 </section>
 
-<!-- ============ 3. 与综述的映射 ============ -->
-<section id="survey">
-<h2>3. 与我们综述（导航世界模型·决策相关记忆）的映射</h2>
-<div class="card">
-  <table>
-    <tr><th>系统</th><th>M 档案</th><th>F 校正</th><th>格子</th><th>综述中的用法</th></tr>
-    <tr><td>ViNT (R90)</td><td>仅 5 帧滑窗（基座状态）</td><td>无</td><td>C00</td><td>对照基线</td></tr>
-    <tr><td>NoMaD (R91)</td><td>拓扑图</td><td>无</td><td><b>C10</b></td><td>P2 负案例（无失效机制）；P3 成本透明正例</td></tr>
-    <tr><td>SG-Nav (R92)</td><td>3D 场景图</td><td>re-perception</td><td><b>C11</b></td><td>P2 贯穿案例（4.5 证据融合/4.6 获取时机）</td></tr>
-    <tr><td>UniGoal/GC-VLN (R93/R94)</td><td>场景图+图匹配</td><td>多阶段匹配</td><td>C11</td><td>任务拓宽；VLN 归 W3 外部验证</td></tr>
-    <tr><td>SuperNav (R96)</td><td>文本/工作区档案</td><td>提示级</td><td>C10</td><td>新载体格子；4.6 第二个显式实例；成本不报病案</td></tr>
-  </table>
-  <p class="note">汇合叙事：两路线共享天花板"记忆不能回答动作后果"→ 世界模型补预测 → 缺失层=决策相关记忆（P1–P4）。SuperNav 的 Learned Executor（NoMaD 启发）= 合流已发生的证据。WAM 综述（R95）为最近邻，差异：它问预测怎样进动作生成（操作域），我们问历史怎样进状态维护与导航决策（导航域）。</p>
-</div>
-</section>
-
-<!-- ============ 4. 复现计划 ============ -->
-<section id="plan">
-<h2>4. 两周真机复现计划（SG-Nav → NoMaD）</h2>
-<div class="kpi">
-  <div>目标：<b>找出仿真论文里看不到的真实问题</b></div>
-  <div>产出：<b>通俗 Word 报告（给导师）</b></div>
-  <div>平台候选：<b>Unitree Go2 / 现有移动底盘</b></div>
-</div>
-
-<h3>Week 1：SG-Nav（清华线）</h3>
-<div class="card">
-  <p><b>复现要点</b>：官方代码 github.com/bagh2178/SG-Nav；感知栈（开放词表检测+实例分割合并）→ 场景图增量构建 → LLM H-CoT 打分 → FMM 局部规划。真机适配的关键替换：RGB-D 来源（RealSense/Go2 相机）、位姿来源（里程计/SLAM）、LLM 端点（GPT API 或本地 LLaMA）。</p>
-  <p><b>要记录的真实问题</b>：① 每步 LLM 调用次数与 wall-clock（论文不报，我们测）；② 开放词表检测在真实光照/杂物下的误检率，以及 re-perception 能救回多少；③ 场景图规模随时间的膨胀与剪枝有效性；④ 离散动作假设（0.25m/30°）在真实走廊的别扭程度。</p>
-</div>
-
-<h3>Week 2：NoMaD（Berkeley 线）</h3>
-<div class="card">
-  <p><b>复现要点</b>：官方代码 github.com/robodhruv/visualnav-transformer（GNM/ViNT/NoMaD 同库）；预训练 checkpoint 直接可用；部署=拓扑图在线构建 + 扩散策略推理（Jetson 可跑）。</p>
-  <p><b>要记录的真实问题</b>：① 目标图像采样方式对成功率的影响（image-goal 的天然歧义）；② 探索模式在多岔口环境的覆盖率 vs frontier 语义先验的缺失；③ 动态障碍（行人）下扩散多峰分布的反应；④ 与 SG-Nav 同场景对照：一个"会走但不理解"，一个"理解但慢"。</p>
-</div>
-
-<h3>报告骨架（Word，通俗版）</h3>
-<div class="card">
-  <ol>
-    <li>具身导航是什么（POMDP 三组件一页图）</li>
-    <li>两条路线：学出来的（NoMaD）vs 问出来的（SG-Nav）</li>
-    <li>真机对照实验设计（同场景、同目标、记录什么）</li>
-    <li>发现的问题清单（延迟/误检/记忆膨胀/目标歧义…）</li>
-    <li>对综述的启示：真实系统里的记忆维护与成本账</li>
-  </ol>
-</div>
-</section>
-
-<footer>
-  具身导航领域树 v0.1 · 维护：导航主线小组 · 配套仓库 nav-wm-survey<br>
-  文献编号 R90–R96 与本组综述总账对齐
-</footer>
+<footer>具身导航领域树 v0.2 · 仅含公开文献信息 · 持续更新</footer>
 
 <script>
-document.querySelectorAll('.caret').forEach(c=>{
-  c.addEventListener('click',()=>{
-    const n=c.parentElement.querySelector(':scope > ul.nested');
-    if(n){n.classList.toggle('show');c.classList.toggle('open');}
+const DETAILS = {
+root:"具身导航：智能体以视觉为主要观测、在环境中移动以达成目标。核心困难=部分可观测（看不全）+ 序贯决策（每一步影响后面看到什么）。",
+task:"按目标形式分任务，决定'什么信息相关'：坐标→图像→类别→语言→抽象需求，越往后需要的语义推理越多。",
+pointgoal:"目标为坐标。考察几何与连通性记忆的最低配置。DD-PPO 用 25 亿帧训练近乎饱和该任务，说明纯几何导航已被 RL 基本解决。",
+objectnav:"目标为物体类别（如'沙发'）。主流 benchmark：MP3D、HM3D、RoboTHOR、HM3D-OVON。考察语义-空间关联记忆。注意 ObjectNav Revisited 对评测口径的批判。",
+imagenav:"目标为目标视角的照片。考察实例级外观与空间关系记忆。ViNT/NoMaD 的主战场；优点是真机友好（拍张照片就能指定目标），缺点是歧义大。",
+vln:"目标由自然语言指令描述。R2R/RxR 为离散环境，VLN-CE 为连续环境。GC-VLN、NavMorph、SC²-WM 等在此评测。",
+demand:"需求驱动（'找个能休息的地方'）要求先解释需求再导航；GOAT-Bench 考察同一环境连续多目标；IVLN 考察 tour 式指令序列。Agentic 系统的差异化战场。",
+othertask:"AudioNav（声音目标）、EQA（导航+问答）、社交导航（人群中穿行）、纯探索（最大化覆盖率）。",
+paradigm:"系统范式是领域树的主干：从经典管线到学习派到大模型派，回答'知识从哪来'——从人工规则、从数据、还是从预训练大模型。",
+classic:"SLAM 建图 + 几何规划（A*/快速行进法）。不学习，但至今仍是多数系统的低层执行接口。",
+modular:"视觉感知 → 语义地图 → 学习策略选目标点 → 几何规划执行。代表：ANS、SemEXP、PONI。优点是可解释，缺点是需要训练且类别受限。",
+ans:"Active Neural SLAM（Chaplot, CVPR'20）：显式俯视地图（障碍/已探索/足迹通道）+ 分层策略。相同训练帧下覆盖率显著超端到端基线，但收益混有分层规划与监督建图的贡献。",
+semexp:"SemEXP（NeurIPS'20）用语义地图+目标导向探索；PONI（CVPR'22）用势函数；GOSE 允许'再看看'。模块化学习的代表。",
+e2erl:"端到端强化学习：观测直接到动作。DD-PPO 证明 PointGoal 可饱和，但 ObjectNav 上采样效率低、泛化差。",
+ddppo:"DD-PPO（Wijmans et al.）：25 亿帧训练，PointGoal 近乎满分。证明'足够数据+RL'可以解决几何导航，但该配方无法直接搬到语义导航。",
+zson:"ZSON（NeurIPS'22）把目标对齐到 CLIP 嵌入实现零样本 ObjectNav；THDA 用数据增强。端到端 RL 的泛化尝试。",
+llmzs:"training-free 路线：不训练任何导航参数，白嫖 LLM/VLM 的常识推理。优势是开放词表、零样本；结构性问题是延迟与成本。内分四派：值图打分、场景图、分层系统、agentic harness。",
+valuemap:"把 LLM/VLM 的语义相关性打分投到俯视地图上，选分数最高的 frontier 探索。简单有效，但只用到了'附近有什么物体'，没有空间关系。",
+cow:"CoW（CVPR'23）：CLIP 梯度定位+frontier 探索的零样本基线。",
+vlfm:"VLFM（ICRA'24）：视觉语言特征值图，真机验证过，是 frontier 打分派的代表。",
+esc:"ESC（ICML'23）用 LLM 软常识约束探索；L3MVN（IROS'23）LLM 给 frontier 打分；VoroNav 用 Voronoi 图；ApexNav 自适应探索+多帧目标确认。",
+sgline:"场景图派（清华 Hang Yin/Jiwen Lu 组主线）：把环境建成'房间-组-物体'三层 3D 语义场景图，LLM 在图上推理。三篇演进=表示不变、目标类型不断拓宽：物体→任意目标→语言指令。",
+sgnav:"SG-Nav（NeurIPS'24）：在线建 3D 场景图；H-CoT 四步提示 LLM 推理目标位置；frontier 得分=子图概率距离加权插值；re-perception 累积可信度纠正误检。MP3D SR 40.2，首个超有监督的零样本方法。局限：依赖在线实例分割、只做 ObjectNav、不报时延。",
+unigoal:"UniGoal（CVPR'25）：把物体/图像/文本三类目标统一转成图，导航=场景图与目标图的匹配；多阶段探索（全匹配→部分匹配→坐标投影推理）。",
+gcvln:"GC-VLN（CoRL'25）：VLN 指令分解为显式空间约束（图约束优化），training-free 完成语言指令导航。",
+cg:"底座技术：ConceptGraphs（开放词表 3D 场景图构建）、EmbodiedSAM（在线实时 3D 分割）。感知错了图就错，是整条的阿克琉斯之踵。",
+hier:"分层系统：高层 VLM 推理（房间级/区域级），低层经典算法或学习策略执行。InstructNav、SysNav、OmniNav。",
+instructnav:"InstructNav（2024）：LLM 输出的动作与地标经值图转成轨迹，支持多类型指令导航。",
+sysnav:"SysNav（2026）：房间级 VLM 推理 + 房间内经典算法执行，真机跨本体；OmniNav：快慢系统结合前瞻探索与子目标规划。",
+agentic:"2026 年新浪潮：不再给 LLM 固定流水线，而是给它工具箱（Tools）、说明书（Skills）、记事本（context），让 MLLM 自主决定何时看、往哪走、何时停。借自 SWE-agent/Codex 的 agent harness 工程。",
+supernav:"SuperNav（浙大，arXiv:2610.12126）：GPT 级 MLLM + agent harness（Codex CLI+MCP 实现）；visual-point 接口 PointNav(d,[u,v]) 直接在图像里点目的地；双后端可换（几何 A* / NoMaD 启发的学习策略）。实例导航 78% vs UniNaVid 34%。软肋：无持久空间记忆、延迟成本自认不可控、完成判断靠 MLLM 自报。",
+harnessvln:"HarnessVLN（2026）：事件记忆+时空图+动作/终止校验的 harness；AgenticNav：像素目标+深度查询+历史图像检索的工具调用 harness。",
+learned:"学习派通用策略（Berkeley Dhruv Shah/Sergey Levine 组主线）：在 100+ 小时多机器人真实数据上行为克隆，追求跨本体泛化、边缘设备实时。谱系：ViNG→ViKiNG→GNM→ViNT→NoMaD→UniNav。",
+ving:"ViNG（ICRA'21）用图像目标+拓扑记忆做开放世界导航；ViKiNG（RSS'22）加入地理提示做公里级导航。拓扑图+时距估计的奠基。",
+gnm:"GNM（ICRA'23）：跨本体通用导航模型，一个策略开多种机器人。",
+vint:"ViNT（CoRL'23）：EfficientNet 编码过去 5 帧+目标融合 token→Transformer→双头（未来 waypoint+时距）。不能无目标探索，需外挂 300M 图像扩散模型生成子目标。",
+nomad:"NoMaD（ICRA'24）：ViNT + goal masking（attention 屏蔽目标 token，单模型统一探索/导航）+ 扩散动作解码（建模多峰无碰撞动作）。19M 参数跑 Jetson，探索成功率 98%、超 ViNT 系统 25%+。局限：只认图像目标、无语义、拓扑图只增不纠。",
+uninav:"UniNav（2026）：世界模型+动作扩散统一，NoMaD 的直接后继——学习派开始补'预测'组件；FlowNav：flow matching 替代扩散提速。",
+vla:"端到端 VLA/视频大模型：视频帧+指令直接出动作。通用性强但黑箱、数据饥渴、延迟高。",
+navid:"NaVid/UniNaVid：视频 VLM 出下一步动作，VLN 任务强，但跨环境泛化受训练数据覆盖限制。",
+navila:"NaVILA：腿式机器人 VLN；StreamVLN：流式快慢上下文；Mobility VLA：真机演示。",
+wm:"世界模型导航：显式学习'动作→后果'的预测器，用于规划（MPC/候选排序）或想象训练。是两条经典路线共同缺失的'预测'组件的显式化。",
+dreamer:"Dreamer 系（Hafner）：在 latent 想象中训练策略，运行时一次前向。导航域直接证据少，多为机制参照。",
+nwm:"Navigation World Models（Bar et al., CVPR'25）：条件视频生成模型当世界模型，给外部候选轨迹打分/规划。LeCun 组。",
+navwm:"NavWM：同骨干下 WM 规划 vs 随机采样 SR 0.63→0.74；NavForesee：不生成像素只预测 depth/DINOv2/SAM 特征；WMNav：VLM 融入世界模型做 ObjectNav。",
+sc2wm:"SC²-WM：VLN-CE 上的自校正世界模型（闭环反馈改写 latent）；NavMorph：上下文记忆+潜在动力学。导航+世界模型+记忆的早期汇合点。",
+memory:"记忆载体维度：从'什么都不记'到'结构化语义图'。载体的选择决定能回答什么问题、付出什么成本。",
+"m-none":"纯 reactive：当前帧直接出动作。最便宜，只能做视野内任务。",
+"m-rnn":"循环隐状态（RNN/SSM）：历史压进向量。压缩狠、不可审计；读输出头还是读隐状态效果不同（R2I 的教训）。",
+"m-map":"度量地图：occupancy/语义俯视网格。几何精确、可规划；语义层靠检测器，图会随时间膨胀。",
+"m-topo":"拓扑图：节点=历史观测图像，边=学到的时距/可达性。轻量、适合长程重访；无语义、只增不纠。代表：ViNT/NoMaD。",
+"m-sg":"3D 语义场景图：节点=房间/组/物体，边=空间/功能关系。语义丰富、LLM 友好、可解释；构建成本高、依赖感知精度。代表：SG-Nav 系、ConceptGraphs、Khronos。",
+"m-latent":"latent/context 记忆：特征向量库，注意力检索。端到端可学；相似≠相关、无几何对齐。代表：NavMorph CEM、SC²-WM VCM。",
+"m-text":"文本/工作区档案：自然语言历史+图像路径+进度记录，随取随用。最灵活、LLM 原生；无空间对齐、无时效机制。代表：SuperNav 等 agentic 系统。",
+interface:"决策接口=高层推理与低层执行之间的契约，决定运行时成本结构。",
+"i-direct":"离散动作直接预测：前进/左转/右转/停止。最简单，长程规划能力全压在策略内部。",
+"i-frontier":"frontier 打分：给每个探索边界打分选最高。把'去哪'变成可解释的排序问题；打分依据从 CLIP 相似度到 LLM 常识到场景图推理不等。",
+"i-subgoal":"子目标提议：高层在拓扑图上搜索出下一个途经点（图像），策略逐段执行。短程策略+长程记忆的分工。",
+"i-point":"视觉指点：模型直接在图像上点目的地像素，后端负责走过去（PointNav）。接口最自然，与执行后端解耦。",
+"i-mpc":"WM 想象评估：世界模型想象每条候选轨迹的后果再选。决策质量上限最高，运行时成本也最高。",
+eval:"评测与平台：仿真 benchmark + 真机。注意各论文的 episode 子集、成功阈值、动作接口常有差异，数字跨论文比较需谨慎。",
+sim:"Habitat（MP3D/HM3D/HM3D-OVON）最主流；AI2-THOR/RoboTHOR 偏小场景；Gibson 域差距小；Habitat-GS/InteriorGS 支持实例级任务。",
+metric:"SR=成功率；SPL=路径效率加权成功率；SoftSPL=进度；另有碰撞率、无效重访。时延与模型调用成本普遍漏报，是比较零样本 LLM 系统与学习派系统时的关键盲区。",
+robot:"真机平台：LoCoBot（NoMaD 系）、Unitree Go2 四足（SuperNav 等）、Jackal。真机暴露的问题（延迟、误检、动态障碍）在仿真论文里通常不可见。"
+};
+function render(id){
+  const d = DETAILS[id];
+  const box = document.querySelector('#detail .body');
+  if(d){ box.classList.remove('hint'); box.textContent = d; }
+}
+document.querySelectorAll('.node').forEach(n=>{
+  n.addEventListener('click', e=>{
+    e.stopPropagation();
+    document.querySelectorAll('.node.active').forEach(x=>x.classList.remove('active'));
+    n.classList.add('active');
+    render(n.dataset.d);
+    if(n.classList.contains('branch')){
+      const kids = n.parentElement.querySelector(':scope > ul.kids');
+      if(kids){ kids.classList.toggle('show'); n.classList.toggle('open'); }
+    }
   });
 });
 </script>
